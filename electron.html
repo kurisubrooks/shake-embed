@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Shake</title>
+    <link href="./style.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400" rel="stylesheet" type="text/css">
+    <script>
+        window.$ = window.jQuery = require("jquery");
+        var moment = require("moment-timezone");
+        var socket = require("socket.io-client")("http://shakeserv.kurisubrooks.com:1190");
+        var sound = new Audio("nhk.mp3");
+        var colours = { red: "#E44242", grey: "#333333" };
+
+        $(function() {
+            socket.on("connect", () => socket.emit("open", { version: "1.2" }));
+            socket.on("disconnect", () => console.error("Connection to Shake was dropped, attempting reconnect protocol.."));
+
+            socket.on("auth", (data) => {
+                if (data.ok) console.info("Connected to Shake");
+                else console.error("Connection to Shake was refused.")
+            });
+
+            socket.on("data", (data) => {
+                quake(data);
+                console.log(data);
+            });
+
+            function quake(data) {
+                data = JSON.parse(data);
+                $("body").css("background", colours.red);
+                $("#epicenter").text(data.epicenter_en);
+                $("#seismic").text("Seismic " + data.seismic_en);
+                $("#magnitude").text("Magnitude " + data.magnitude);
+                $("#depth").text("Depth " + data.depth);
+                $("#previous").html("&nbsp;");
+                sound.play();
+
+                if (data.situation != 0) timeout(12000);
+            }
+
+            function timeout(time) {
+                setTimeout(() => {
+                    $("body").css("background", colours.grey);
+                    $("#previous").text("Last Quake");
+                }, time);
+            }
+
+            function time() {
+                $("#time").text(moment().tz("Asia/Tokyo").format("DD/MM/YY, hh:mm:ssa") + ' (JST)');
+            }
+
+            setInterval(() => time(), 1000);
+            time();
+        });
+    </script>
+</head>
+<body>
+
+    <div class="time">
+        <h3 id="time">...</h3>
+    </div>
+
+    <div class="container">
+        <div class="alert">
+            <div class="icon">
+                <img src="shake.png" width="90px">
+                <h2 id="previous">No Data</h3>
+            </div>
+            <div class="warning">
+                <h1 id="epicenter">...</h1>
+                <h2 id="seismic">...</h2>
+                <h2 id="magnitude">...</h2>
+                <h2 id="depth">...</h2>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
