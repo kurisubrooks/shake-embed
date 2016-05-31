@@ -4,7 +4,7 @@
     -ms-user-select: none;
     -o-user-select: none;
     user-select: none;
-    /*cursor: none;*/
+    cursor: none;
 }
 
 html, body {
@@ -18,56 +18,57 @@ html, body {
     margin: 0;
 }
 
-h1, h2, h3, h4, h5, h6 { margin:5px 0; }
-
-.warning #epicenter {
-    font-family: "Roboto", "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic ProN", "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
-    font-size: 2.8em;
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 400;
+    margin: 1px 0;
 }
 
-.warning .details {
-    font-family: "Roboto Mono", "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic ProN", "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
-    font-size: 1.8em;
-}
-
-.warning .details #value {
-    margin-left: 0;
+hr {
+    border: none;
+    border-bottom: 1px solid #DDD;
 }
 
 .container {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.container .alert .warning {
-    min-width: 600px;
-    max-width: 1200px;
-    margin-left: 35px;
-}
-
-.container .alert .warning #epicenter {
-    text-align: justify;
+    height: calc(100% - 70px);
+    position: relative;
 }
 
 .time {
-    position: absolute;
-    transform: translate(-50%);
-    font-size: 1.5em;
-    top: 10px;
-    left: 50%;
     text-align: center;
+    font-size: 18px;
 }
 
-#previous:before, #previous:after {
-    content: " — ";
+.time #time {
+    padding-top: 14px;
+}
+
+.alert {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    width: 1050px;
+}
+
+.alert .icon {
+    display: inline-block;
+    text-align: center;
+    width: 145px;
+}
+
+.alert .warning {
+    margin-left: 20px;
+    display: inline-block;
 }
 
 .overlay {
     position: absolute;
     background: #FFF;
-    font-size: 34px;
+    font-size: 26px;
     color: #000;
     height: 100%;
     width: 100%;
